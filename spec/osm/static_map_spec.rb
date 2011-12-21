@@ -61,42 +61,28 @@ describe OSM::StaticMap do
     end
   end
   
-  # describe '#offset_x' do
-  #   it 'returns the x offset for the placement of tiles' do
-  #     map.offset_x.should == -83
-  #   end
-  # end
-  # 
-  # describe '#offset_y' do
-  #   it 'returns the y offset for the placement of tiles' do
-  #     map.offset_y.should == -76
-  #   end
-  # end
-  # 
-  # describe '#center_tile' do
-  #   it 'returns the tile that contains the center of the map' do
-  #     map  = OSM::StaticMap.new(latitude: 50.9985099, longitude: 5.857652, zoomlevel: 15)
-  #     tile = map.center_tile
-  #     tile.x.should == 16917
-  #     tile.y.should == 10970
-  #   end
-  # end
-  # 
-  # describe '#top_left_tile' do
-  #   map = OSM::StaticMap.new(latitude: 50.9985099, longitude: 5.857652, zoomlevel: 15)
-  #   tile = map.top_left_tile
-  #   tile.x.should == 16916
-  #   tile.y.should == 10969
-  # end
-  # 
-  # describe '#bottom_right_tile' do
-  #   map = OSM::StaticMap.new(latitude: 50.9985099, longitude: 5.857652, zoomlevel: 15)
-  #   tile = map.bottom_right_tile
-  #   tile.x.should == 16918
-  #   tile.y.should == 10970
-  # end
+  describe '#center_tile' do
+    it 'returns the tile that contains the center of the map' do
+      tile = map.center_tile
+      [tile.x, tile.y].should == [16917, 10970]
+    end
+  end
+  
+  describe '#tile_offset' do
+    it 'returns the offset for the placement of tiles' do
+      map.tile_offset.should == [-83, -76]
+    end
+  end
+  
+  describe '#tiles' do
+    it 'contains the tiles that are used by this map' do
+      map.tiles.should have(6).tiles
+    end
+  end
   
   describe '#to_image' do
+    use_vcr_cassette 'StaticMap#to_image'
+    
     let(:map) { OSM::StaticMap.new(center: [50.9985099, 5.857652], zoomlevel: 15) }
     
     it 'returns an image of the specified size' do
@@ -105,6 +91,10 @@ describe OSM::StaticMap do
     end
     
     it 'writes an image' do
+      # Compare this image to:
+      # Google Maps:   http://maps.google.com/maps/api/staticmap?size=500x350&sensor=false&center=50.9985099,5.857652&zoom=15
+      # OpenStreetMap: http://staticmap.openstreetmap.de/staticmap.php?center=50.9985099,5.857652&zoom=15
+      # 
       img = map.to_image
       img.write 'tmp/map.png'
     end

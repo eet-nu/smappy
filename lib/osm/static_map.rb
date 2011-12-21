@@ -26,24 +26,17 @@ module OSM
       end
     end
     
-    def to_image
-      # Create a new image:
-      canvas  = Magick::Image.new(width, height)
-      drawing = Magick::Draw.new
-      
-      # Fetch the center tile:
-      center_tile = center.to_tile zoomlevel: zoomlevel
-      
-      # Get the x and y offset for the center tile:
-      x_offset,
-      y_offset = center.position_within_tile(center_tile).map do |position|
-                   position - (Tile::SIZE / 2)
-                 end
-      
-      # Coordinates of center tile:
-      center_x = (width  / 2) - (Tile::SIZE / 2) - x_offset
-      center_y = (height / 2) - (Tile::SIZE / 2) - y_offset
-      
+    def center_tile
+      center.to_tile zoomlevel: zoomlevel
+    end
+    
+    def tile_offset
+      center.position_within_tile(center_tile).map do |position|
+        position - (Tile::SIZE / 2)
+      end
+    end
+    
+    def tiles
       # How many tiles do we need to fill the image:
       tile_width   = (width  / Tile::SIZE).to_i + 1
       tile_height  = (height / Tile::SIZE).to_i + 1
@@ -54,25 +47,23 @@ module OSM
       tile_y_start = (center_tile.y - (tile_height / 2)).to_i
       tile_y_end   = tile_y_start + tile_height
       
-      # Coordinates of first tile in image:
-      start_x  = center_x - (center_tile.x - tile_x_start) * Tile::SIZE
-      start_y  = center_y - (center_tile.y - tile_y_start) * Tile::SIZE
-      
-      (tile_x_start..tile_x_end).each do |x|
-        (tile_y_start..tile_y_end).each do |y|
-          tile = Tile.new(zoomlevel: zoomlevel, x: x, y: y)
-          
-          # Offset of tile:
-          x_pos    = x - tile_x_start
-          y_pos    = y - tile_y_start
-          
-          # Coordinates of this tile in image:
-          pixels_x = start_x + x_pos * Tile::SIZE
-          pixels_y = start_y + y_pos * Tile::SIZE
-          
-          # Add this tile to our image:
-          drawing.composite(pixels_x, pixels_y, Tile::SIZE, Tile::SIZE, tile.to_image)
+      (tile_x_start..tile_x_end).map do |x|
+        (tile_y_start..tile_y_end).map do |y|
+          Tile.new(zoomlevel: zoomlevel, x: x, y: y)
         end
+      end.flatten.reject do |tile|
+        x,y = tile.position_on_map(self)
+        (x + Tile::SIZE < 0 || x > width) || (y + Tile::SIZE < 0 || y > height)
+      end
+    end
+    
+    def to_image
+      canvas  = Magick::Image.new(width, height)
+      drawing = Magick::Draw.new
+      
+      tiles.each do |tile|
+        position = tile.position_on_map(self)
+        drawing.composite(position[0], position[1], Tile::SIZE, Tile::SIZE, tile.to_image)
       end
       
       drawing.draw(canvas)

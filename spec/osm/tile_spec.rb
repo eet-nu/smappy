@@ -38,6 +38,18 @@ describe OSM::Tile do
     end
   end
   
+  describe '#position_on_map' do
+    let(:map)  { OSM::StaticMap.new center: [50.9985099, 5.857652], zoomlevel: 15 }
+    
+    it 'returns the coordinates of the tile on the map' do
+      tile = OSM::Tile.new x: 16917, y: 10970, zoomlevel: 15
+      tile.position_on_map(map).should == [205, 123]
+      
+      tile = OSM::Tile.new x: 16918, y: 10970, zoomlevel: 15
+      tile.position_on_map(map).should == [461, 123]
+    end
+  end
+  
   describe '#to_url' do
     it 'returns the URL to the tile' do
       tile.to_url.should == "http://tile.openstreetmap.org/0/0/0.png"
@@ -65,6 +77,8 @@ describe OSM::Tile do
   end
   
   describe '#to_image' do
+    use_vcr_cassette 'Tile#to_image'
+    
     it 'returns the image at the url' do
       img = tile.to_image
       [img.columns, img.rows].should == [256, 256]

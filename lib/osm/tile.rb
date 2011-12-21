@@ -21,18 +21,21 @@ module OSM
       end
     end
     
+    def position_on_map(map)
+      center_tile_x = (map.width  / 2) - (Tile::SIZE / 2) - map.tile_offset[0]
+      center_tile_y = (map.height / 2) - (Tile::SIZE / 2) - map.tile_offset[1]
+      
+      offset_x = (map.center_tile.x - x) * Tile::SIZE
+      offset_y = (map.center_tile.y - y) * Tile::SIZE
+      
+      [center_tile_x - offset_x,
+       center_tile_y - offset_y]
+    end
+    
     def to_image
       data = open(to_url).read
       Magick::Image.from_blob(data).first
     end
-    
-    # def precise_x
-    #   @x.to_f
-    # end
-    # 
-    # def precise_y
-    #   @y.to_f
-    # end
     
     def x
       @x.to_i
