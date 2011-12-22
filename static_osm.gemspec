@@ -2,8 +2,8 @@
 # project in your rails apps through git.
 Gem::Specification.new do |s|
   s.name        = "static_osm"
-  s.summary     = "Generate static maps with OpenStreetMap."
-  s.description = "Generate static maps with OpenStreetMap."
+  s.summary     = "Generate static maps."
+  s.description = "Generate static maps from OpenStreetMap tiles."
   s.files       = Dir["{lib}/**/*"] + ["LICENSE", "Rakefile", "Gemfile", "README.md"]
   s.version     = "0.0.1"
   
