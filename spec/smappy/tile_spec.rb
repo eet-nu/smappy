@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe OSM::Tile do
-  let(:tile) { OSM::Tile.new }
+describe Smappy::Tile do
+  let(:tile) { Smappy::Tile.new }
   
   describe '#initialize' do
     it 'sets a default zoomlevel' do
@@ -9,7 +9,7 @@ describe OSM::Tile do
     end
     
     it 'sets the zoomlevel' do
-      OSM::Tile.new(zoomlevel: 1).zoomlevel.should == 1
+      Smappy::Tile.new(zoomlevel: 1).zoomlevel.should == 1
     end
     
     it 'sets a default x-coordinate' do
@@ -17,7 +17,7 @@ describe OSM::Tile do
     end
     
     it 'sets the x-coordinate' do
-      OSM::Tile.new(x: 1).x.should == 1
+      Smappy::Tile.new(x: 1).x.should == 1
     end
     
     it 'sets a default y-coordinate' do
@@ -25,7 +25,7 @@ describe OSM::Tile do
     end
     
     it 'sets the y-coordinate' do
-      OSM::Tile.new(y: 1).y.should == 1
+      Smappy::Tile.new(y: 1).y.should == 1
     end
     
     it 'sets a default url_template' do
@@ -33,19 +33,19 @@ describe OSM::Tile do
     end
     
     it 'sets the url_template' do
-      tile = OSM::Tile.new(url_template: 'http://c.tah.openstreetmap.org/Tiles/tile/%{zoomlevel}/%{x}/%{y}.png')
+      tile = Smappy::Tile.new(url_template: 'http://c.tah.openstreetmap.org/Tiles/tile/%{zoomlevel}/%{x}/%{y}.png')
       tile.url_template.should == 'http://c.tah.openstreetmap.org/Tiles/tile/%{zoomlevel}/%{x}/%{y}.png'
     end
   end
   
   describe '#position_on_map' do
-    let(:map)  { OSM::StaticMap.new center: [50.9985099, 5.857652], zoomlevel: 15 }
+    let(:map)  { Smappy::StaticMap.new center: [50.9985099, 5.857652], zoomlevel: 15 }
     
     it 'returns the coordinates of the tile on the map' do
-      tile = OSM::Tile.new x: 16917, y: 10970, zoomlevel: 15
+      tile = Smappy::Tile.new x: 16917, y: 10970, zoomlevel: 15
       tile.position_on_map(map).should == [205, 123]
       
-      tile = OSM::Tile.new x: 16918, y: 10970, zoomlevel: 15
+      tile = Smappy::Tile.new x: 16918, y: 10970, zoomlevel: 15
       tile.position_on_map(map).should == [461, 123]
     end
   end
@@ -87,13 +87,13 @@ describe OSM::Tile do
   
   describe '#x' do
     it 'returns the floored x-coordinate' do
-      OSM::Tile.new(x: 1.6).x.should == 1
+      Smappy::Tile.new(x: 1.6).x.should == 1
     end
   end
   
   describe '#y' do
     it 'returns the floored y-coordinate' do
-      OSM::Tile.new(y: 1.6).y.should == 1
+      Smappy::Tile.new(y: 1.6).y.should == 1
     end
   end
 end

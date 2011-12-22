@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe OSM::Marker do
-  let(:marker) { OSM::Marker.new(50.9985099, 5.857652) }
+describe Smappy::Marker do
+  let(:marker) { Smappy::Marker.new(50.9985099, 5.857652) }
   
   describe '#initialize' do
     it 'sets a default image' do
@@ -26,7 +26,7 @@ describe OSM::Marker do
   end
   
   describe '#position_on_map' do
-    let(:map) {  OSM::StaticMap.new(center: [50.9985099, 5.857652], zoomlevel: 15) }
+    let(:map) { Smappy::StaticMap.new(center: [50.9985099, 5.857652], zoomlevel: 15) }
     
     it 'returns the coordinates of the marker on the given map' do
       marker.position_on_map(map).should == [234, 138]

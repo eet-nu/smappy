@@ -1,6 +1,6 @@
 require 'rmagick'
 
-module OSM
+module Smappy
   class StaticMap
     DEFAULT_OPTIONS = {
       width:     500,

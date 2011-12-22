@@ -1,4 +1,4 @@
-module OSM
+module Smappy
   class Location
     attr_accessor :latitude, :longitude
     

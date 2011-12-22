@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'rmagick'
 
-module OSM
+module Smappy
   class Marker < Location
     DEFAULT_IMAGE = File.expand_path('../../../markers/information_marker.png', __FILE__)
     

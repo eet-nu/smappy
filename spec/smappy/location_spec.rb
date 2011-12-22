@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe OSM::Location do
-  let(:location) { OSM::Location.new(50.9985099, 5.857652) }
+describe Smappy::Location do
+  let(:location) { Smappy::Location.new(50.9985099, 5.857652) }
   
   describe '#to_tile' do
     it 'returns a tile at the default zoomlevel' do
@@ -22,7 +22,7 @@ describe OSM::Location do
   
   describe '#position_on_map' do
     it 'returns the coordinates of the position on the given map' do
-      map = OSM::StaticMap.new(center: [50.9985099, 5.857652], zoomlevel: 15)
+      map = Smappy::StaticMap.new(center: [50.9985099, 5.857652], zoomlevel: 15)
       position = location.position_on_map(map)
       position.should == [250, 175]
     end

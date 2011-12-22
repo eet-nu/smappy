@@ -1,7 +1,7 @@
 require 'open-uri'
 require 'rmagick'
 
-module OSM
+module Smappy
   class Tile
     SIZE = 256
     

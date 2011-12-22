@@ -1,4 +1,4 @@
-require File.expand_path('../../lib/static_osm',  __FILE__)
+require File.expand_path('../../lib/smappy',  __FILE__)
 require 'rspec'
 require 'vcr'
 
