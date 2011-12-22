@@ -14,7 +14,7 @@ module OSM
       tile
     end
     
-    def position_within_tile(tile)
+    def position_on_tile(tile)
       x = tile_x_at_zoomlevel(tile.zoomlevel)
       y = tile_y_at_zoomlevel(tile.zoomlevel)
       

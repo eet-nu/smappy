@@ -20,10 +20,10 @@ describe OSM::Location do
     end
   end
   
-  describe '#position_within_tile' do
+  describe '#position_on_tile' do
     it 'returns the coordinates of the position of the location within the given tile' do
       tile     = location.to_tile zoomlevel: 15
-      position = location.position_within_tile tile
+      position = location.position_on_tile tile
       position.should == [45, 52]
     end
   end

@@ -31,7 +31,7 @@ module OSM
     end
     
     def tile_offset
-      center.position_within_tile(center_tile).map do |position|
+      center.position_on_tile(center_tile).map do |position|
         position - (Tile::SIZE / 2)
       end
     end
