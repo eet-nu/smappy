@@ -20,6 +20,14 @@ describe OSM::Location do
     end
   end
   
+  describe '#position_on_map' do
+    it 'returns the coordinates of the position on the given map' do
+      map = OSM::StaticMap.new(center: [50.9985099, 5.857652], zoomlevel: 15)
+      position = location.position_on_map(map)
+      position.should == [250, 175]
+    end
+  end
+  
   describe '#position_on_tile' do
     it 'returns the coordinates of the position of the location within the given tile' do
       tile     = location.to_tile zoomlevel: 15

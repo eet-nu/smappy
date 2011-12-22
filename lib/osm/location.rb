@@ -14,6 +14,14 @@ module OSM
       tile
     end
     
+    def position_on_map(map)
+      tile   = to_tile(zoomlevel: map.zoomlevel)
+      x1, y1 = position_on_tile(tile)
+      x2, y2 = tile.position_on_map(map)
+      
+      [x1 + x2, y1 + y2]
+    end
+    
     def position_on_tile(tile)
       x = tile_x_at_zoomlevel(tile.zoomlevel)
       y = tile_y_at_zoomlevel(tile.zoomlevel)
