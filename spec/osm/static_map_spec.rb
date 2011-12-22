@@ -89,14 +89,5 @@ describe OSM::StaticMap do
       img = map.to_image
       [img.columns, img.rows].should == [500, 350]
     end
-    
-    it 'writes an image' do
-      # Compare this image to:
-      # Google Maps:   http://maps.google.com/maps/api/staticmap?size=500x350&sensor=false&center=50.9985099,5.857652&zoom=15
-      # OpenStreetMap: http://staticmap.openstreetmap.de/staticmap.php?center=50.9985099,5.857652&zoom=15
-      # 
-      img = map.to_image
-      img.write 'tmp/map.png'
-    end
   end
 end
