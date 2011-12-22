@@ -9,7 +9,7 @@ module OSM
       center:    [0.0, 0.0]
     }
     
-    attr_accessor :width, :height, :zoomlevel, :center
+    attr_accessor :width, :height, :zoomlevel, :center, :tile_url_template
     
     def initialize(options = {})
       options = DEFAULT_OPTIONS.merge(options)
@@ -36,6 +36,15 @@ module OSM
       end
     end
     
+    def tile_options
+      {
+        zoomlevel:    zoomlevel,
+        url_template: tile_url_template
+      }.delete_if do |key, value|
+        value.nil?
+      end
+    end
+    
     def tiles
       # How many tiles do we need to fill the image:
       tile_width   = (width  / Tile::SIZE).to_i + 1
@@ -49,7 +58,7 @@ module OSM
       
       (tile_x_start..tile_x_end).map do |x|
         (tile_y_start..tile_y_end).map do |y|
-          Tile.new(zoomlevel: zoomlevel, x: x, y: y)
+          Tile.new(tile_options.merge(x: x, y: y))
         end
       end.flatten.reject do |tile|
         x,y = tile.position_on_map(self)

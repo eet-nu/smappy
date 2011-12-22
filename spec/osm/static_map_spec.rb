@@ -74,9 +74,40 @@ describe OSM::StaticMap do
     end
   end
   
+  describe '#tile_options' do
+    let(:options) { map.tile_options }
+    
+    it 'returns a hash' do
+      options.should be_a Hash
+    end
+    
+    it 'includes the zoomlevel' do
+      map.zoomlevel = 11
+      options[:zoomlevel].should == 11
+    end
+    
+    it 'includes the url_template' do
+      map.tile_url_template = 'http://mt1.google.com/vt/x=%{x}&y=%{y}&z=%{zoomlevel}'
+      options[:url_template].should == 'http://mt1.google.com/vt/x=%{x}&y=%{y}&z=%{zoomlevel}'
+    end
+    
+    it 'does not include nil values' do
+      map.tile_url_template = nil
+      options.should_not have_key(:url_template)
+    end
+  end
+  
   describe '#tiles' do
     it 'contains the tiles that are used by this map' do
       map.tiles.should have(6).tiles
+    end
+    
+    it 'contains tiles that use the tile_options' do
+      map.stub(:tile_options).and_return({ zoomlevel: 10, url_template: 'http://mt1.google.com/vt/x=%{x}&y=%{y}&z=%{zoomlevel}' })
+      map.tiles.all? do |tile|
+        tile.zoomlevel.should    == 10
+        tile.url_template.should == 'http://mt1.google.com/vt/x=%{x}&y=%{y}&z=%{zoomlevel}'
+      end
     end
   end
   
