@@ -13,5 +13,5 @@ Gem::Specification.new do |s|
   
   s.files       = Dir["{lib,markers,spec}/**/*"] + ["LICENSE", "Rakefile", "Gemfile", "README.md"]
   
-  s.add_dependency "rmagick"
+  s.add_dependency "chunky_png"
 end

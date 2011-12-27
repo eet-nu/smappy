@@ -121,7 +121,7 @@ describe Smappy::StaticMap do
     
     it 'returns an image of the specified size' do
       img = map.to_image
-      [img.columns, img.rows].should == [500, 350]
+      [img.width, img.height].should == [500, 350]
     end
   end
 end

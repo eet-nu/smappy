@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'rmagick'
+require 'chunky_png'
 
 module Smappy
   class Marker < Location
@@ -15,11 +15,11 @@ module Smappy
     end
     
     def width
-      marker_image.columns
+      marker_image.width
     end
     
     def height
-      marker_image.rows
+      marker_image.height
     end
     
     def position_on_map(map)
@@ -30,9 +30,8 @@ module Smappy
     
     # UNTESTED:
     def marker_image
-      @marker_image ||= (
-        data = open(image).read
-        Magick::Image.from_blob(data).first
+      @marker_image ||= ChunkyPNG::Image.from_datastream(
+        ChunkyPNG::Datastream.from_io(open(image))
       )
     end
   end

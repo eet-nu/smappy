@@ -22,15 +22,13 @@ namespace :smappy do
     # Google Maps tiles:
     # map.tile_url_template = 'http://mt1.google.com/vt/x=%{x}&y=%{y}&z=%{zoomlevel}'
     
-    canvas  = map.to_image
-    drawing = Magick::Draw.new
+    image = map.to_image
       
     marker   = Smappy::Marker.new(map.center.latitude, map.center.longitude)
     position = marker.position_on_map(map)
-      
-    drawing.composite(position[0], position[1], marker.width, marker.height, marker.marker_image)
-    drawing.draw(canvas)
-      
-    canvas.write 'tmp/map.png'
+    
+    image.compose!(marker.marker_image, position[0], position[1])
+    
+    image.save 'tmp/map.png'
   end
 end

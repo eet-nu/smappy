@@ -1,5 +1,5 @@
 require 'open-uri'
-require 'rmagick'
+require 'chunky_png'
 
 module Smappy
   class Tile
@@ -33,8 +33,9 @@ module Smappy
     end
     
     def to_image
-      data = open(to_url).read
-      Magick::Image.from_blob(data).first
+      @tile_image ||= ChunkyPNG::Image.from_datastream(
+        ChunkyPNG::Datastream.from_io(open(to_url))
+      )
     end
     
     def x

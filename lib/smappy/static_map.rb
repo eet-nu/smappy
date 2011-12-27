@@ -1,4 +1,4 @@
-require 'rmagick'
+require 'chunky_png'
 
 module Smappy
   class StaticMap
@@ -67,15 +67,29 @@ module Smappy
     end
     
     def to_image
-      canvas  = Magick::Image.new(width, height)
-      drawing = Magick::Draw.new
+      canvas = ChunkyPNG::Image.new(width, height)
       
       tiles.each do |tile|
-        position = tile.position_on_map(self)
-        drawing.composite(position[0], position[1], Tile::SIZE, Tile::SIZE, tile.to_image)
+        x, y  = tile.position_on_map(self)
+        image = tile.to_image
+        
+        if x < 0 || y < 0
+          crop_x = x < 0 ? -x : 0
+          crop_y = y < 0 ? -y : 0
+          x, y   = [0, x].max, [0, y].max
+          
+          image.crop!(crop_x, crop_y, image.width - crop_x, image.height - crop_y)
+        end
+        
+        if x + image.width > canvas.width || y + image.height > height
+          crop_width  = [image.width, canvas.width - x].min
+          crop_height = [image.height, canvas.height - y].min
+          
+          image.crop!(0, 0, crop_width, crop_height)
+        end
+        
+        canvas.compose!(image, x, y)
       end
-      
-      drawing.draw(canvas)
       
       canvas
     end

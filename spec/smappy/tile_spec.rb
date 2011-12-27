@@ -81,7 +81,7 @@ describe Smappy::Tile do
     
     it 'returns the image at the url' do
       img = tile.to_image
-      [img.columns, img.rows].should == [256, 256]
+      [img.width, img.height].should == [256, 256]
     end
   end
   
