@@ -98,8 +98,11 @@ describe Smappy::StaticMap do
   end
   
   describe '#tiles' do
+    let(:small_map) {  Smappy::StaticMap.new center: [50.9985099, 5.857652], zoomlevel: 15, width: 220, height: 170 }
+    
     it 'contains the tiles that are used by this map' do
       map.tiles.should have(6).tiles
+      small_map.tiles.should have(4).tiles
     end
     
     it 'contains tiles that use the tile_options' do

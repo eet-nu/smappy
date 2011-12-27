@@ -47,8 +47,8 @@ module Smappy
     
     def tiles
       # How many tiles do we need to fill the image:
-      tile_width   = (width  / Tile::SIZE).to_i + 1
-      tile_height  = (height / Tile::SIZE).to_i + 1
+      tile_width   = (width  / Tile::SIZE).to_i + 2
+      tile_height  = (height / Tile::SIZE).to_i + 2
       
       # What are our first and last tiles:
       tile_x_start = (center_tile.x - (tile_width / 2)).to_i
