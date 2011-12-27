@@ -3,6 +3,8 @@ require 'bundler'
 Bundler.setup
 Bundler.require
 
+Bundler::GemHelper.install_tasks
+
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require 'smappy'
 
