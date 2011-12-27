@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email       = "tomeric@eet.nu"
   s.homepage    = "http://github.com/eet-nu/smappy"
   
-  s.files       = Dir["{lib}/**/*"] + ["LICENSE", "Rakefile", "Gemfile", "README.md"]
+  s.files       = Dir["{lib,markers,spec}/**/*"] + ["LICENSE", "Rakefile", "Gemfile", "README.md"]
   
   s.add_dependency "rmagick"
 end
