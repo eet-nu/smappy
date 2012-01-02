@@ -1,5 +1,5 @@
 module Smappy
-  VERSION = '0.0.3'
+  VERSION = '0.0.4'
   
   autoload :Location,  'smappy/location'
   autoload :Marker,    'smappy/marker'
