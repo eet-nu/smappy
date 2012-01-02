@@ -3,7 +3,7 @@ require 'chunky_png'
 
 module Smappy
   class Marker < Location
-    DEFAULT_IMAGE = File.expand_path('../../../markers/information_marker.png', __FILE__)
+    DEFAULT_IMAGE = File.expand_path('../../../markers/marker.png', __FILE__)
     
     attr_accessor :image, :offset
     
