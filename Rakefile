@@ -8,6 +8,15 @@ Bundler::GemHelper.install_tasks
 $LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
 require 'smappy'
 
+require 'rspec/core/rake_task'
+desc "Run specs"
+RSpec::Core::RakeTask.new do |t|
+  t.pattern = "spec/**/*_spec.rb"
+end
+
+desc 'Default: run specs'
+task default: :spec
+
 namespace :smappy do
   desc "Generate an example static map"
   task :generate_example do
